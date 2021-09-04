@@ -52,7 +52,7 @@ word efeSampleCount;
 word txPeriodCount;
 word delayVal = 0;
 bool readDelayPot = false;
-byte initState = 0;
+byte intState = 0;
 byte readDelayCounter = 0;
 
 
@@ -119,55 +119,57 @@ void calcTimerValues()
 //================================
 //ISR
 //================================
-switch (intState)
+ISR(TIMER1_OVF_vect)
 {
-case 0:
-  TCNT1 = txOnCount;
-  digitalWrite(txPin, mosfetOn);
-  intState = 1;
-  break;
-
-case 1:
-  TCNT1 = mainDelayCount;
-  digitalWrite(txPin, mosfetOff);
-  intState = 2;
-  break;
-
-case 2:
-  TCNT1 = mainSampleCount;
-  digitalWrite(mainSamplePin, syncDemodOn);
-  intState = 3;
-  break;
-
-case 3:
-  TCNT1 = efeDelayCount;
-  digitalWrite(mainSamplePin, syncDemodOff);
-  if (readDelayPot == false)
+  switch (intState)
   {
-    readDelayCounter++;
-    if (readDelayCounter >= readDelayLimit)
-    {
-      readDelayPot = true;
-      readDelayCounter = 0;
-    }
+    case 0:
+      TCNT1 = txOnCount;
+      digitalWrite(txPin, mosfetOn);
+      intState = 1;
+      break;
+
+    case 1:
+      TCNT1 = mainDelayCount;
+      digitalWrite(txPin, mosfetOff);
+      intState = 2;
+      break;
+
+    case 2:
+      TCNT1 = mainSampleCount;
+      digitalWrite(mainSamplePin, syncDemodOn);
+      intState = 3;
+      break;
+
+    case 3:
+      TCNT1 = efeDelayCount;
+      digitalWrite(mainSamplePin, syncDemodOff);
+      if (readDelayPot == false)
+      {
+        readDelayCounter++;
+        if (readDelayCounter >= readDelayLimit)
+        {
+          readDelayPot = true;
+          readDelayCounter = 0;
+        }
+      }
+      intState = 4;
+      break;
+
+    case 4:
+      TCNT1 = efeSampleCount;
+      digitalWrite(efeSamplePin, syncDemodOn);
+      intState = 5;
+      break;
+
+    case 5:
+      TCNT1 = txPeriodCount;
+      digitalWrite(efeSamplePin, syncDemodOff);
+      intState = 0;
+      break;
+
+    default:
+      intState = 0;
+      break;
   }
-  intState = 4;
-  break;
-
-case 4:
-  TCNT1 = efeSampleCount;
-  digitalWrite(efeSamplePin, syncDemodOn);
-  intState = 5;
-  break;
-
-case 5:
-  TCNT1 = txPeriodCount;
-  digitalWrite(efeSamplePin, syncDemodOff);
-  intState = 0;
-  break;
-
-default:
-  intState = 0;
-  break;
-}
 }
