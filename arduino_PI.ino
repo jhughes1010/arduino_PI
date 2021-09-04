@@ -32,9 +32,27 @@ float txPeriod = 15e-3;
 
 
 //Timing offsets
+float txOnOffset = 3e-6;
+float mainDelayOffset = 4.2e-6;
+float mainSampleOffset = 3e-6;
+float efeDelayOffset = 12e-6;
+float efeSampleOffset = 4e-6;
+float txPeriodOffset = 30e-6;
+
 
 
 //Program variables
+float temp1, temp2, temp3, temp4, temp5, temp6;
+word txOnCount;
+word mainDelayCount;
+word mainSampleCount;
+word efeDelayCount;
+word efeSampleCount;
+word txPeriodCount;
+word delayVal = 0;
+bool readDelayPot = false;
+byte initState = 0;
+byte readDelayCounter = 0;
 
 
 
