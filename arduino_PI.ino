@@ -169,5 +169,5 @@ case 5:
 default:
   intState = 0;
   break;
-
+}
 }
