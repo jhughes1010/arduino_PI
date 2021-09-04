@@ -115,3 +115,15 @@ void calcTimerValues()
   temp6 -= temp1 + temp2 + temp3 + temp4 + temp5;
   txPeriodCount = maxCount - int(temp6);
 }
+
+//================================
+//ISR
+//================================
+switch (intState)
+{
+case 0:
+  TCNT1 = txOnCount;
+  digitalWrite(txPin, mosfetOn);
+  intState = 1;
+  break;
+}
