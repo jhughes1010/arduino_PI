@@ -4,8 +4,9 @@
 //Pin Assignments
 byte txPin = 8;
 byte mainSamplePin = 9;
-byte audioPin = 10;
-byte boostPin = 11;
+byte efeSamplePin = 10;
+byte audioPin = 11;
+byte boostPin = 12;
 byte delayPin = A0;
 
 
@@ -57,12 +58,60 @@ byte readDelayCounter = 0;
 
 
 
-void setup() {
-  // put your setup code here, to run once:
-
+void setup()
+{
+  pinMode(txPin, OUTPUT);
+  pinMode(mainSamplePin, OUTPUT);
+  pinMode(efeSamplePin, OUTPUT);
+  pinMode(boostPin, INPUT_PULLUP);
+  calcTimerValues();
+  noInterrupts();
+  TCCR1A = 0;
+  TCCR1B = 0;
+  TIMSK0 = 0;
+  TCNT1 = txOnCount;
+  TCCR1B |= (1 << CS10);
+  TIMSK1 |= (1 << TOIE1);
+  interrupts();
+  analogWrite(audioPin, 127);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop()
+{
+  if (readDelayPot == true)
+  {
+    delayVal = analogRead(delayPin);
+    mainDelay = defMainDelay + delayVal * clockCycle;
+    calcTimerValues();
+    readDelayPot = false;
+  }
+}
 
+//================================
+//Subroutines
+//================================
+void calcTimerValues()
+{
+  if (digitalRead(boostPin) == HIGH)
+  {
+    txOn = normalPower;
+  }
+  else
+  {
+    txOn = boostPower;
+  }
+  temp1 = (txOn - txOnOffset) / clockCycle;
+  txOnCount = maxCount - int(temp1);
+  temp2 = (mainDelay - mainDelayOffset) / clockCycle;
+  mainDelayCount = maxCount - int(temp2);
+  temp3 = (mainSample - mainSampleOffset) / clockCycle;
+  mainSampleCount = maxCount + int(temp3);
+  temp4 = (efeDelay - efeDelayOffset) / clockCycle;
+  temp4 -= temp3 + temp2;
+  efeDelayCount = maxCount - int(temp4);
+  temp5 = (efeSample - efeSampleOffset) / clockCycle;
+  efeSampleCount = maxCount - int(temp5);
+  temp6 = (txPeriod - txPeriodOffset) / clockCycle;
+  temp6 -= temp1 + temp2 + temp3 + temp4 + temp5;
+  txPeriodCount = maxCount - int(temp6);
 }
