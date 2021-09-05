@@ -1,5 +1,12 @@
 // Arduino Pulse Induction Metal Detector
 
+//Includes
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+//Global Instances
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
 // Pin assignments
 byte txPin = 8;          // Assign pin 8 to TX output
 byte mainSamplePin = 9;  // Assign pin 9 to main sample pulse
@@ -7,6 +14,7 @@ byte efeSamplePin = 10;  // Assign pin 10 to EFE sample pulse
 byte audioPin = 11;      // Assign pin 11 to audio chopper
 byte boostPin = 12;      // Assign pin 12 to boost switch
 byte delayPin = A0;      // Assign delay pot to A0
+byte signalPin = A1;     // Assign signal monitor to A1
 
 // Program constants
 const float normalPower = 50E-6;       // Normal TX-on time (50us)
@@ -49,11 +57,23 @@ boolean readDelayPot = false;                    // Delay pot read (true or fals
 byte intState = 0;                               // Interrupt state machine
 byte readDelayCounter = 0;                       // Read delay pot counter
 
+//=================================
+//setup()
+//=================================
 void setup() {
   pinMode(txPin, OUTPUT);           // Set TX pin to output mode
   pinMode(mainSamplePin, OUTPUT);   // Set main sample pin to output mode
   pinMode(efeSamplePin, OUTPUT);    // Set EFE sample pin to output mode
   pinMode(boostPin, INPUT_PULLUP);  // Set Boost switch pin to input mode with pullup resistor
+
+  //LED and A1 defined
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(A1, INPUT);
+  //Pulse LED for 300ms to indicate boot
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(300);
+  digitalWrite(LED_BUILTIN, LOW);
+
   calcTimerValues();                // Calculate all timer values
   noInterrupts();                   // Disable interrupts
   TCCR1A = 0;                       // Initialize Timer1 registers
@@ -64,8 +84,15 @@ void setup() {
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
   interrupts();                     // Enable interrupts
   analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
+
+  LCDInit();
+  LCDTitle();
 }
 
+//=================================
+//calcTimerValues() calculates all
+//6 portions of sampling cycle
+//=================================
 void calcTimerValues() {
   if (digitalRead(boostPin) == HIGH) {                   // Get boost switch position
     txOn = normalPower;                                  // Set TX-on to 50us if HIGH
@@ -88,6 +115,9 @@ void calcTimerValues() {
   txPeriodCount = maxCount - int(temp6);                 // TX period count for Timer1
 }
 
+//=================================
+//ISR for timer events
+//=================================
 ISR(TIMER1_OVF_vect) {
   switch (intState) {
     case 0:
@@ -95,19 +125,19 @@ ISR(TIMER1_OVF_vect) {
       digitalWrite(txPin, mosfetOn);               // Turn on Mosfet
       intState = 1;
       break;
-      
+
     case 1:
       TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
       digitalWrite(txPin, mosfetOff);              // Turn off Mosfet
       intState = 2;
       break;
-      
+
     case 2:
       TCNT1 = mainSampleCount;                     // Load Timer1 with main sample pulse count
       digitalWrite(mainSamplePin, syncDemodOn);    // Turn on main sample gate
       intState = 3;
       break;
-      
+
     case 3:
       TCNT1 = efeDelayCount;                       // Load Timer1 with EFE sample delay count
       digitalWrite(mainSamplePin, syncDemodOff);   // Turn off main sample gate
@@ -120,25 +150,28 @@ ISR(TIMER1_OVF_vect) {
       }
       intState = 4;
       break;
-      
+
     case 4:
       TCNT1 = efeSampleCount;                      // Load Timer1 with EFE sample pulse count
       digitalWrite(efeSamplePin, syncDemodOn);     // Turn on EFE sample gate
       intState = 5;
       break;
-      
+
     case 5:
       TCNT1 = txPeriodCount;                       // Load Timer1 with TX period count
       digitalWrite(efeSamplePin, syncDemodOff);    // Turn off EFE sample gate
       intState = 0;
       break;
-      
+
     default:
       intState = 0;
       break;
   }
 }
 
+//=================================
+//Loop
+//=================================
 void loop() {
   if (readDelayPot == true) {
     delayVal = analogRead(delayPin);                   // Read the delay pot
