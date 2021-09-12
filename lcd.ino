@@ -1,5 +1,5 @@
 //Functions for LCD usage
-
+#ifdef LCD
 //=================================
 //Init LCD
 //=================================
@@ -17,3 +17,4 @@ void LCDTitle(void)
   lcd.setCursor(0, 0);
   lcd.print("Searcher PI");
 }
+#endif

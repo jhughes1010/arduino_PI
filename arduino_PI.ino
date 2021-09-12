@@ -1,11 +1,16 @@
 // Arduino Pulse Induction Metal Detector
 
 //Includes
+#ifdef LCD
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
+#endif
+#include "config.h"
 
 //Global Instances
+#ifdef LCD
 LiquidCrystal_I2C lcd(0x27, 16, 2);
+#endif
 
 // Pin assignments
 byte txPin = 8;          // Assign pin 8 to TX output
@@ -14,7 +19,7 @@ byte efeSamplePin = 10;  // Assign pin 10 to EFE sample pulse
 byte audioPin = 11;      // Assign pin 11 to audio chopper
 byte boostPin = 12;      // Assign pin 12 to boost switch
 byte delayPin = A0;      // Assign delay pot to A0
-byte signalPin = A1;     // Assign signal monitor to A1
+//byte signalPin = A1;     // Assign signal monitor to A1
 
 // Program constants
 const float normalPower = 50E-6;       // Normal TX-on time (50us)
@@ -71,8 +76,8 @@ void setup() {
   pinMode(A1, INPUT);
   //Pulse LED for 300ms to indicate boot
   digitalWrite(LED_BUILTIN, HIGH);
-  delay(300);
-  digitalWrite(LED_BUILTIN, LOW);
+  //delay(300);
+  //digitalWrite(LED_BUILTIN, LOW);
 
   calcTimerValues();                // Calculate all timer values
   noInterrupts();                   // Disable interrupts
@@ -85,8 +90,10 @@ void setup() {
   interrupts();                     // Enable interrupts
   analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
 
+#ifdef LCD
   LCDInit();
   LCDTitle();
+#endif
 }
 
 //=================================
