@@ -1,3 +1,3 @@
 //Configuration and compile settings
-#define NAME "Searcher PI"
-//#define LCD
+#define NAME "Searcher v1.0"
+#define LCD

@@ -1,11 +1,12 @@
 // Arduino Pulse Induction Metal Detector
 
 //Includes
+#include "config.h"
 #ifdef LCD
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #endif
-#include "config.h"
+
 
 //Global Instances
 #ifdef LCD

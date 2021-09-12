@@ -15,6 +15,6 @@ void LCDInit(void)
 void LCDTitle(void)
 {
   lcd.setCursor(0, 0);
-  lcd.print("Searcher PI");
+  lcd.print(NAME);
 }
 #endif
