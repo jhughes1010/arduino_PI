@@ -8,6 +8,8 @@
 #endif
 
 
+
+
 //Global Instances
 #ifdef LCD
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -67,6 +69,9 @@ byte readDelayCounter = 0;                       // Read delay pot counter
 //setup()
 //=================================
 void setup() {
+  Serial.begin(115200);
+  Serial.println("Arduino PI");
+
   pinMode(txPin, OUTPUT);           // Set TX pin to output mode
   pinMode(mainSamplePin, OUTPUT);   // Set main sample pin to output mode
   pinMode(efeSamplePin, OUTPUT);    // Set EFE sample pin to output mode
@@ -90,6 +95,7 @@ void setup() {
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
   interrupts();                     // Enable interrupts
   analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
+  debugln("setup completed");
 
 #ifdef LCD
   LCDInit();
