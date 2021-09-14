@@ -2,7 +2,9 @@
 // Original code by George Overton
 // Modifications to support LCD and menuing by James Hughes
 
+//=================================
 //Includes
+//=================================
 #include "config.h"
 #ifdef LCD
 #include <Wire.h>
@@ -11,13 +13,16 @@
 
 
 
-
+//=================================
 //Global Instances
+//=================================
 #ifdef LCD
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 #endif
 
+//=================================
 // Pin assignments
+//=================================
 byte txPin = 8;          // Assign pin 8 to TX output
 byte mainSamplePin = 9;  // Assign pin 9 to main sample pulse
 byte efeSamplePin = 10;  // Assign pin 10 to EFE sample pulse
@@ -26,7 +31,9 @@ byte boostPin = 12;      // Assign pin 12 to boost switch
 byte delayPin = A0;      // Assign delay pot to A0
 //byte signalPin = A1;     // Assign signal monitor to A1
 
+//=================================
 // Program constants
+//=================================
 const float normalPower = 50E-6;       // Normal TX-on time (50us)
 const float boostPower = 100E-6;       // Boost TX-on time (100us)
 const float clockCycle = 62.5E-9;      // Time for one clock cycle (1/16MHz)
@@ -37,7 +44,9 @@ const byte mosfetOff = LOW;            // Mosfet turns off when transmitter inpu
 const byte syncDemodOn = LOW;          // Sample gate turns on when input high
 const byte syncDemodOff = HIGH;        // Sample gate turns off when input low
 
+//=================================
 // Detector timings
+//=================================
 float txOn = normalPower;        // TX-on time using normal power mode
 float defMainDelay = 10E-6;      // Default main sample delay (10us)
 float mainDelay = defMainDelay;  // Main sample pulse delay
@@ -46,7 +55,9 @@ float efeDelay = 240E-6;         // EFE sample pulse delay (240us)
 float efeSample = mainSample;    // EFE sample pulse width (same as main sample)
 float txPeriod = 1E-3;           // TX period (1ms)
 
+//=================================
 // Timing offsets
+//=================================
 float txOnOffset = 3E-6;         // TX-on pulse offset (3us)
 float mainDelayOffset = 4.2E-6;  // Main delay pulse offset (4.2us)
 float mainSampleOffset = 3E-6;   // Main sample pulse offset (3us)
@@ -54,7 +65,9 @@ float efeDelayOffset = 12E-6;    // EFE delay pulse offset (12us)
 float efeSampleOffset = 4E-6;    // EFE sample pulse offset (4us)
 float txPeriodOffset = 30E-6;    // TX period offset (30us)
 
+//=================================
 // Program variables
+//=================================
 float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
 word txOnCount;                                  // TX pulse
 word mainDelayCount;                             // Main sample delay
