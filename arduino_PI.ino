@@ -1,4 +1,6 @@
 // Arduino Pulse Induction Metal Detector
+// Original code by George Overton
+// Modifications to support LCD and menuing by James Hughes
 
 //Includes
 #include "config.h"
