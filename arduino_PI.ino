@@ -97,7 +97,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(A1, INPUT);
   //Pulse LED for 300ms to indicate boot
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LED_BUILTIN, LOW);
   //delay(300);
   //digitalWrite(LED_BUILTIN, LOW);
 
@@ -215,8 +215,9 @@ void loop() {
   uint8_t selectB = selectPressed();
   if (selectB)
   {
+    lcd.clear();
     boost = !boost;
     LCDBoost();
+    debugln(millis());
   }
-
 }

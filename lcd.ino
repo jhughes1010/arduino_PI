@@ -24,7 +24,7 @@ void LCDBoost( void )
 {
   lcd.setCursor(0, 0);
   if (boost)
-    lcd.print("Boost");
+    lcd.print("Boost ");
   else
     lcd.print("Normal");
   delay(1500);
