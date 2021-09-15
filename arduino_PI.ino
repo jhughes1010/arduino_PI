@@ -112,10 +112,10 @@ void setup() {
   analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
   debugln("setup completed");
 
-  //#ifdef LCD
+#ifdef LCD
   LCDInit();
   LCDTitle();
-  ///#endif
+#endif
 }
 
 //=================================
