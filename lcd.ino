@@ -5,8 +5,8 @@
 //=================================
 void LCDInit(void)
 {
-  lcd.init();
-  lcd.backlight();
+  lcd.begin(16, 2);
+  lcd.setBacklight(0x01);
 }
 
 //=================================

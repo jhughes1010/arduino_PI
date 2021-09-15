@@ -7,8 +7,8 @@
 //=================================
 #include "config.h"
 #ifdef LCD
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
+#include <Adafruit_RGBLCDShield.h>
+#include <Adafruit_MCP23017.h>
 #endif
 
 
@@ -17,7 +17,7 @@
 //Global Instances
 //=================================
 #ifdef LCD
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 #endif
 
 //=================================
@@ -112,10 +112,10 @@ void setup() {
   analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
   debugln("setup completed");
 
-#ifdef LCD
+  //#ifdef LCD
   LCDInit();
   LCDTitle();
-#endif
+  ///#endif
 }
 
 //=================================
