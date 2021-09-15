@@ -16,5 +16,19 @@ void LCDTitle(void)
 {
   lcd.setCursor(0, 0);
   lcd.print(NAME);
+  delay(2000);
 }
+
+
+void LCDBoost( void )
+{
+  lcd.setCursor(0, 0);
+  if (boost)
+    lcd.print("Boost");
+  else
+    lcd.print("Normal");
+  delay(1500);
+}
+
+
 #endif

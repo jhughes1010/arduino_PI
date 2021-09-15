@@ -12,7 +12,7 @@ int selectPressed()
   {
     Serial.print("Select button value: ");
     Serial.println(buttons);
-    delay(750);
+    delay(2000);
   }
   return buttons;
 }

@@ -19,6 +19,7 @@
 #ifdef LCD
 Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 #endif
+bool boost = false;
 
 //=================================
 // Pin assignments
@@ -202,10 +203,20 @@ ISR(TIMER1_OVF_vect) {
 //Loop
 //=================================
 void loop() {
-  if (readDelayPot == true) {
+  if (readDelayPot == true) 
+  {
     delayVal = analogRead(delayPin);                   // Read the delay pot
     mainDelay = defMainDelay + delayVal * clockCycle;  // Offset main sample delay
     calcTimerValues();                                 // Calculate new timer values
     readDelayPot = false;                              // Set read delay pot flag to false
   }
+
+  //See about buttons
+  uint8_t selectB = selectPressed();
+  if (selectB)
+  {
+    boost = !boost;
+    LCDBoost();
+  }
+
 }
