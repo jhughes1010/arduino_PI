@@ -48,7 +48,7 @@ const byte syncDemodOff = HIGH;        // Sample gate turns off when input low
 // Detector timings
 //=================================
 float txOn = normalPower;        // TX-on time using normal power mode
-float defMainDelay = 10E-6;      // Default main sample delay (10us)
+float defMainDelay = 20E-6;      // Default main sample delay (20us)
 float mainDelay = defMainDelay;  // Main sample pulse delay
 float mainSample = 50E-6;        // Main sample pulse width (50us)
 float efeDelay = 240E-6;         // EFE sample pulse delay (240us)
@@ -97,8 +97,8 @@ void setup() {
   pinMode(A1, INPUT);
   //Pulse LED for 300ms to indicate boot
   digitalWrite(LED_BUILTIN, HIGH);
-  //delay(300);
-  //digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
 
   calcTimerValues();                // Calculate all timer values
   noInterrupts();                   // Disable interrupts
