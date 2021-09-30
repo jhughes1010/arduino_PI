@@ -76,7 +76,8 @@ word efeDelayCount;                              // EFE sample delay
 word efeSampleCount;                             // EFE sample pulse
 word txPeriodCount;                              // TX period
 word delayVal = 0;                               // Delay pot value
-boolean readDelayPot = false;                    // Delay pot read (true or false)
+bool readDelayPot = false;                       // Delay pot read (true or false)
+byte audioLevel = LOW;                           // Value for audio chopper signal
 byte intState = 0;                               // Interrupt state machine
 byte readDelayCounter = 0;                       // Read delay pot counter
 
@@ -91,6 +92,7 @@ void setup() {
   pinMode(mainSamplePin, OUTPUT);   // Set main sample pin to output mode
   pinMode(efeSamplePin, OUTPUT);    // Set EFE sample pin to output mode
   pinMode(boostPin, INPUT_PULLUP);  // Set Boost switch pin to input mode with pullup resistor
+  pinMode(audioPin, OUTPUT);
 
   //LED and A1 defined
   pinMode(LED_BUILTIN, OUTPUT);
@@ -109,7 +111,7 @@ void setup() {
   TCCR1B |= (1 << CS10);            // No prescaling for Timer1
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
   interrupts();                     // Enable interrupts
-  analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
+  // analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
   debugln("setup completed");
 
 #ifdef LCD
@@ -152,6 +154,15 @@ ISR(TIMER1_OVF_vect) {
     case 0:
       TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
       digitalWrite(txPin, mosfetOn);               // Turn on Mosfet
+      digitalWrite(audioPin, audioLevel);
+      if (audioLevel == HIGH)
+      {
+        audioLevel = LOW;
+      }
+      else
+      {
+        audioLevel = HIGH;
+      }
       intState = 1;
       break;
 
