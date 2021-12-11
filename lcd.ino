@@ -30,5 +30,12 @@ void LCDBoost( void )
   delay(1500);
 }
 
+void LCDBar ( int adcValue)
+{
+  //convert 10 bit value to pixel 0-79
+  int pixels = (int)(adcValue/80);
+  lcd.write(byte(0));
+}
+
 
 #endif
