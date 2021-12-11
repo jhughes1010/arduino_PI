@@ -24,13 +24,13 @@ bool boost = false;
 //=================================
 // Pin assignments
 //=================================
-byte txPin = 8;          // Assign pin 8 to TX output
-byte mainSamplePin = 9;  // Assign pin 9 to main sample pulse
-byte efeSamplePin = 10;  // Assign pin 10 to EFE sample pulse
-byte audioPin = 11;      // Assign pin 11 to audio chopper
-byte boostPin = 12;      // Assign pin 12 to boost switch
-byte delayPin = A0;      // Assign delay pot to A0
-//byte signalPin = A1;     // Assign signal monitor to A1
+byte txPin = 8;          // Assign TX output
+byte mainSamplePin = 9;  // Assign main sample pulse
+byte efeSamplePin = 10;  // Assign EFE sample pulse
+byte audioPin = 11;      // Assign audio chopper
+byte boostPin = 12;      // Assign boost switch
+byte delayPin = A0;      // Assign delay pot
+byte signalPin = A3;     // Assign signal monitor
 
 //=================================
 // Program constants
@@ -116,6 +116,7 @@ void setup() {
 #ifdef LCD
   LCDInit();
   LCDTitle();
+  createCustomChar();
 #endif
 }
 
