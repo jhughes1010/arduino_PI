@@ -32,9 +32,17 @@ void LCDBoost( void )
 
 void LCDBar ( int adcValue)
 {
+  int full;
   //convert 10 bit value to pixel 0-79
-  int pixels = (int)(adcValue/80);
-  lcd.write(byte(0));
+  int pixels = (int)(adcValue / 1023 * 80);
+  int columns = (int)(pixels / 5);
+  int pixPortion = pixels % 5;
+  lcd.setCursor(1, 0);
+  for (full = 0; full < columns; full++)
+  {
+    lcd.write(4);
+  }
+  lcd.write(byte(pixPortion));
 }
 
 

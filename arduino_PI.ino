@@ -204,7 +204,9 @@ ISR(TIMER1_OVF_vect) {
 //Loop
 //=================================
 void loop() {
-  if (readDelayPot == true) 
+  static int bgValue = 0;
+  static int dir = 1;
+  if (readDelayPot == true)
   {
     delayVal = analogRead(delayPin);                   // Read the delay pot
     mainDelay = defMainDelay + delayVal * clockCycle;  // Offset main sample delay
@@ -221,4 +223,12 @@ void loop() {
     LCDBoost();
     debugln(millis());
   }
+  LCDBar ( bgValue);
+  if (bgValue >= 1023 || bgValue <= 0)
+  {
+    dir = -dir;
+  }
+  bgValue += dir;
+
+  delay(2);
 }
