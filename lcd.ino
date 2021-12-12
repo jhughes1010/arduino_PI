@@ -16,6 +16,8 @@ void LCDTitle(void)
 {
   lcd.setCursor(0, 0);
   lcd.print(NAME);
+  lcd.setCursor(1, 0);
+  lcd.print(VERSION);
   delay(2000);
 }
 
