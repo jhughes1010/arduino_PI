@@ -1,6 +1,6 @@
 //Configuration and compile settings
 #define NAME "Searcher"
-#define VERSION "v1.1 - 2021"
+#define VERSION "v1.1 - 2022"
 #define LCD
 
 

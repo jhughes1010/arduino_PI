@@ -110,7 +110,8 @@ void setup() {
   TCCR1B |= (1 << CS10);            // No prescaling for Timer1
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
   interrupts();                     // Enable interrupts
-  analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
+  // analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
+  tone(audioPin, 350);
   debugln("setup completed");
 
 #ifdef LCD
@@ -154,6 +155,15 @@ ISR(TIMER1_OVF_vect) {
     case 0:
       TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
       digitalWrite(txPin, mosfetOn);               // Turn on Mosfet
+      digitalWrite(audioPin, audioLevel);
+      if (audioLevel == HIGH)
+      {
+        audioLevel = LOW;
+      }
+      else
+      {
+        audioLevel = HIGH;
+      }
       intState = 1;
       break;
 
@@ -224,11 +234,12 @@ void loop() {
     debugln(millis());
   }
   LCDBar ( bgValue);
-  if (bgValue >= 1023 || bgValue <= 0)
+  if (bgValue >= 1023 || bgValue < 0)
   {
     dir = -dir;
   }
-  bgValue += dir;
+  bgValue += dir * 24;
 
-  delay(2);
+  //delay(2);
+  //Serial.println(bgValue);
 }

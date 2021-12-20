@@ -16,7 +16,7 @@ void LCDTitle(void)
 {
   lcd.setCursor(0, 0);
   lcd.print(NAME);
-  lcd.setCursor(1, 0);
+  lcd.setCursor(0, 1);
   lcd.print(VERSION);
   delay(2000);
 }
@@ -36,15 +36,20 @@ void LCDBar ( int adcValue)
 {
   int full;
   //convert 10 bit value to pixel 0-79
-  int pixels = (int)(adcValue / 1023 * 80);
+  float pixels = ((float)adcValue / 1023 * 80);
   int columns = (int)(pixels / 5);
-  int pixPortion = pixels % 5;
-  lcd.setCursor(1, 0);
+  int pixPortion = (int)pixels % 5;
+  //Serial.println(pixels);
+  //Serial.println(columns);
+  //Serial.println(pixPortion);
+  //Serial.println("---");
+  lcd.setCursor(0, 1);
   for (full = 0; full < columns; full++)
   {
     lcd.write(4);
   }
   lcd.write(byte(pixPortion));
+  
 }
 
 
