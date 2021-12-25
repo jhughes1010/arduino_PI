@@ -49,7 +49,7 @@ const byte syncDemodOff = HIGH;        // Sample gate turns off when input low
 // Detector timings
 //=================================
 float txOn = normalPower;        // TX-on time using normal power mode
-float defMainDelay = 10E-6;      // Default main sample delay (10us)
+float defMainDelay = 10E-6;      // Default main sample delay (20us)
 float mainDelay = defMainDelay;  // Main sample pulse delay
 float mainSample = 50E-6;        // Main sample pulse width (50us)
 float efeDelay = 240E-6;         // EFE sample pulse delay (240us)
@@ -77,7 +77,8 @@ word efeDelayCount;                              // EFE sample delay
 word efeSampleCount;                             // EFE sample pulse
 word txPeriodCount;                              // TX period
 word delayVal = 0;                               // Delay pot value
-boolean readDelayPot = false;                    // Delay pot read (true or false)
+bool readDelayPot = false;                       // Delay pot read (true or false)
+byte audioLevel = LOW;                           // Value for audio chopper signal
 byte intState = 0;                               // Interrupt state machine
 byte readDelayCounter = 0;                       // Read delay pot counter
 
@@ -92,14 +93,21 @@ void setup() {
   pinMode(mainSamplePin, OUTPUT);   // Set main sample pin to output mode
   pinMode(efeSamplePin, OUTPUT);    // Set EFE sample pin to output mode
   pinMode(boostPin, INPUT_PULLUP);  // Set Boost switch pin to input mode with pullup resistor
+  pinMode(audioPin, OUTPUT);
 
   //LED and A1 defined
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(A1, INPUT);
   //Pulse LED for 300ms to indicate boot
+<<<<<<< HEAD
   digitalWrite(LED_BUILTIN, LOW);
   //delay(300);
   //digitalWrite(LED_BUILTIN, LOW);
+=======
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+>>>>>>> 02070b9dd176571c209c8045c58e2f7138a03c32
 
   calcTimerValues();                // Calculate all timer values
   noInterrupts();                   // Disable interrupts
@@ -111,7 +119,10 @@ void setup() {
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
   interrupts();                     // Enable interrupts
   // analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
+<<<<<<< HEAD
   tone(audioPin, 350);
+=======
+>>>>>>> 02070b9dd176571c209c8045c58e2f7138a03c32
   debugln("setup completed");
 
 #ifdef LCD
