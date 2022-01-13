@@ -74,3 +74,17 @@ int rightPressed()
   }
   return button;
 }
+
+//=================================
+//nonIntDelay()
+//=================================
+void nonIntDelay(int delayTime)
+{
+  int loop1, loop2;
+  for (loop1 = 0; loop1 < 255; loop1++)
+  {
+    for (loop2 = 0; loop2 < maxCount; loop2++)
+    {
+    }
+  }
+}
