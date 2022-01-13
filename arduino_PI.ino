@@ -12,6 +12,12 @@
 #endif
 
 
+//=================================
+//Defines
+//=================================
+#define MS * 1E-3
+#define US * 1E-6
+#define NS * 1E-9
 
 //=================================
 //Global Instances
@@ -30,14 +36,15 @@ byte efeSamplePin = 10;  // Assign EFE sample pulse
 byte audioPin = 11;      // Assign audio chopper
 byte boostPin = 12;      // Assign boost switch
 byte delayPin = A0;      // Assign delay pot
+byte batteryPin = A1;    // Assign battery monitor 
 byte signalPin = A3;     // Assign signal monitor
 
 //=================================
 // Program constants
 //=================================
-const float normalPower = 50E-6;       // Normal TX-on time (50us)
-const float boostPower = 100E-6;       // Boost TX-on time (100us)
-const float clockCycle = 62.5E-9;      // Time for one clock cycle (1/16MHz)
+const float normalPower = 50 US;       // Normal TX-on time (50us)
+const float boostPower = 100 US;       // Boost TX-on time (100us)
+const float clockCycle = 62.5 NS;      // Time for one clock cycle (1/16MHz)
 const unsigned long maxCount = 65535;  // Value of 2^16 - 1
 const byte readDelayLimit = 100;       // Wait 100 TX periods (100ms) before reading delay pot
 const byte mosfetOn = HIGH;            // Mosfet turns on when transmitter input high
@@ -49,22 +56,22 @@ const byte syncDemodOff = HIGH;        // Sample gate turns off when input low
 // Detector timings
 //=================================
 float txOn = normalPower;        // TX-on time using normal power mode
-float defMainDelay = 10E-6;      // Default main sample delay (20us)
+float defMainDelay = 10 US;      // Default main sample delay (20us)
 float mainDelay = defMainDelay;  // Main sample pulse delay
-float mainSample = 50E-6;        // Main sample pulse width (50us)
-float efeDelay = 240E-6;         // EFE sample pulse delay (240us)
+float mainSample = 50 US;        // Main sample pulse width (50us)
+float efeDelay = 240 US;         // EFE sample pulse delay (240us)
 float efeSample = mainSample;    // EFE sample pulse width (same as main sample)
-float txPeriod = 1E-3;           // TX period (1ms)
+float txPeriod = 1 MS;           // TX period (1ms)
 
 //=================================
 // Timing offsets
 //=================================
-float txOnOffset = 3E-6;         // TX-on pulse offset (3us)
-float mainDelayOffset = 4.2E-6;  // Main delay pulse offset (4.2us)
-float mainSampleOffset = 3E-6;   // Main sample pulse offset (3us)
-float efeDelayOffset = 12E-6;    // EFE delay pulse offset (12us)
-float efeSampleOffset = 4E-6;    // EFE sample pulse offset (4us)
-float txPeriodOffset = 30E-6;    // TX period offset (30us)
+float txOnOffset = 3 US;         // TX-on pulse offset (3us)
+float mainDelayOffset = 4.2 US;  // Main delay pulse offset (4.2us)
+float mainSampleOffset = 3 US;   // Main sample pulse offset (3us)
+float efeDelayOffset = 12 US;    // EFE delay pulse offset (12us)
+float efeSampleOffset = 4 US;    // EFE sample pulse offset (4us)
+float txPeriodOffset = 30 US;    // TX period offset (30us)
 
 //=================================
 // Program variables
@@ -98,16 +105,13 @@ void setup() {
   //LED and A1 defined
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(A1, INPUT);
-  //Pulse LED for 300ms to indicate boot
-<<<<<<< HEAD
+  //Pulse LED for 1000ms to indicate boot
   digitalWrite(LED_BUILTIN, LOW);
-  //delay(300);
-  //digitalWrite(LED_BUILTIN, LOW);
-=======
+  delay(1000);
   digitalWrite(LED_BUILTIN, HIGH);
   delay(1000);
   digitalWrite(LED_BUILTIN, LOW);
->>>>>>> 02070b9dd176571c209c8045c58e2f7138a03c32
+
 
   calcTimerValues();                // Calculate all timer values
   noInterrupts();                   // Disable interrupts
@@ -119,10 +123,7 @@ void setup() {
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
   interrupts();                     // Enable interrupts
   // analogWrite(audioPin, 127);       // Set audioPin with 50% duty cycle PWM
-<<<<<<< HEAD
-  tone(audioPin, 350);
-=======
->>>>>>> 02070b9dd176571c209c8045c58e2f7138a03c32
+
   debugln("setup completed");
 
 #ifdef LCD

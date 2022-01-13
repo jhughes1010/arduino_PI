@@ -11,7 +11,7 @@
  *
  * https://github.com/mchlbrnhrd/mbLib
  */
-
+/*
 // ** menu **
 // include CMBMenu
 #include <CMBMenu.hpp>
@@ -209,3 +209,5 @@ void BarA()
 {
   Serial.println("Function BarA() was called.");
 }
+
+*/
