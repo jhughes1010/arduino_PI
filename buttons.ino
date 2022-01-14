@@ -7,20 +7,20 @@ byte readButtons(void)
   static int debounce = 0;
   byte buttonValue = 0;
 
-  if(!pressed)
+  if (!pressed)
   {
     buttonValue = lcd.readButtons();
-    if(buttonValue)
+    if (buttonValue)
     {
       pressed = true;
-      debounce=0;
+      debounce = 0;
     }
   }
   else
   {
     debounce++;
-    if(debounce >=2^14)
-    pressed = false;
+    if (debounce >= 2 ^ 14)
+      pressed = false;
   }
   return buttonValue;
 }

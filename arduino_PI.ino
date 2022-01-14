@@ -6,18 +6,8 @@
 //Includes
 //=================================
 #include "config.h"
-#ifdef LCD
 #include <Adafruit_RGBLCDShield.h>
 #include <Adafruit_MCP23017.h>
-#endif
-
-
-//=================================
-//Defines
-//=================================
-#define MS * 1E-3
-#define US * 1E-6
-#define NS * 1E-9
 
 //=================================
 //Global Instances
@@ -76,7 +66,6 @@ float txPeriodOffset = 30 US;    // TX period offset (30us)
 //=================================
 // Program variables
 //=================================
-float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
 word txOnCount;                                  // TX pulse
 word mainDelayCount;                             // Main sample delay
 word mainSampleCount;                            // Main sample pulse
@@ -158,9 +147,4 @@ void loop() {
     debugln(millis());
   }
   LCDBar ( bgValue);
-  if (bgValue >= 1023 || bgValue < 0)
-  {
-    dir = -dir;
-  }
-  bgValue += dir * 24;
 }

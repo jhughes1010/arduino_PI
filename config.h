@@ -12,3 +12,10 @@
 #define debug(x)
 #define debugln(x)
 #endif
+
+//=================================
+//Defines
+//=================================
+#define MS * 1E-3
+#define US * 1E-6
+#define NS * 1E-9
