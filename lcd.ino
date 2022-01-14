@@ -21,7 +21,9 @@ void LCDTitle(void)
   delay(2000);
 }
 
-
+//=================================
+//LCDBoost()
+//=================================
 void LCDBoost( void )
 {
   lcd.setCursor(0, 0);
@@ -32,6 +34,9 @@ void LCDBoost( void )
   delay(1500);
 }
 
+//=================================
+//LCDBar()
+//=================================
 void LCDBar ( int adcValue)
 {
   int full;
@@ -49,8 +54,27 @@ void LCDBar ( int adcValue)
     lcd.write(4);
   }
   lcd.write(byte(pixPortion));
-  
 }
 
+//=================================
+//LCDLowBat()
+//=================================
+void LCDLowBat(void)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Low Battery");
+}
+
+//=================================
+//LCDPrintVbat()
+//=================================
+void LCDPrintVbat(float voltage)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("VBAT: ");
+  lcd.print(voltage,2);
+}
 
 #endif

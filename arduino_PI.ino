@@ -36,7 +36,7 @@ byte efeSamplePin = 10;  // Assign EFE sample pulse
 byte audioPin = 11;      // Assign audio chopper
 byte boostPin = 12;      // Assign boost switch
 byte delayPin = A0;      // Assign delay pot
-byte batteryPin = A1;    // Assign battery monitor 
+byte batteryPin = A1;    // Assign battery monitor
 byte signalPin = A3;     // Assign signal monitor
 
 //=================================
@@ -93,6 +93,7 @@ byte readDelayCounter = 0;                       // Read delay pot counter
 //setup()
 //=================================
 void setup() {
+  float vbat;
   Serial.begin(115200);
   Serial.println("Arduino PI");
 
@@ -130,6 +131,15 @@ void setup() {
   LCDInit();
   LCDTitle();
   createCustomChar();
+  vbat = readBattery();
+  if (vbat < 9)
+  {
+    LCDLowBat();
+    while (1)
+    {
+
+    }
+  }
 #endif
 }
 
@@ -157,6 +167,18 @@ void calcTimerValues() {
   temp6 = (txPeriod - txPeriodOffset) / clockCycle;
   temp6 -= temp1 + temp2 + temp3 + temp4 + temp5;
   txPeriodCount = maxCount - int(temp6);                 // TX period count for Timer1
+}
+
+//=================================
+//readBattery()
+//=================================
+int readBattery( void)
+{
+  int adc;
+  float voltage;
+  adc = analogRead(batteryPin);
+  voltage = adc / 68.2;
+  return voltage;
 }
 
 //=================================
