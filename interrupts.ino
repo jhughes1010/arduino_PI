@@ -1,8 +1,25 @@
 //=================================
+//setInterruptDetails()
+//=================================
+void setInterruptDetails(void)
+{
+  calcTimerValues();                // Calculate all timer values
+  noInterrupts();                   // Disable interrupts
+  TCCR1A = 0;                       // Initialize Timer1 registers
+  TCCR1B = 0;
+  TIMSK0 = 0;                       // Clear Timer0 mask register to eliminate jitter
+  TCNT1 = txOnCount;                // Load Timer1 with TX-on count
+  TCCR1B |= (1 << CS10);            // No prescaling for Timer1
+  TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
+  interrupts();                     // Enable interrupts
+}
+
+//=================================
 //calcTimerValues() calculates all
 //6 portions of sampling cycle
 //=================================
-void calcTimerValues() {
+void calcTimerValues()
+{
   float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
   if (digitalRead(boostPin) == HIGH) {                   // Get boost switch position
     txOn = normalPower;                                  // Set TX-on to 50us if HIGH
@@ -28,7 +45,8 @@ void calcTimerValues() {
 //=================================
 //ISR for timer events
 //=================================
-ISR(TIMER1_OVF_vect) {
+ISR(TIMER1_OVF_vect)
+{
   switch (intState) {
     case 0:
       TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
