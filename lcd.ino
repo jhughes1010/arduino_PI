@@ -37,23 +37,35 @@ void LCDBoost( void )
 //=================================
 //LCDBar()
 //=================================
-void LCDBar ( int adcValue)
+void LCDBar ( void)
 {
-  int full;
+  byte bar[16] = {32};
+  int pixels;
+  int pos;
+  int columns;
+  int pixPortion;
+  int signalValue;
+
+  signalValue = analogRead(signalPin);
+
   //convert 10 bit value to pixel 0-79
-  float pixels = ((float)adcValue / 1023 * 80);
-  int columns = (int)(pixels / 5);
-  int pixPortion = (int)pixels % 5;
-  //Serial.println(pixels);
-  //Serial.println(columns);
-  //Serial.println(pixPortion);
-  //Serial.println("---");
-  lcd.setCursor(0, 1);
-  for (full = 0; full < columns; full++)
+  pixels = (signalValue / 1023 * 80);
+  columns = (int)(pixels / 5);
+  pixPortion = (int)pixels % 5;
+
+  //fill columns
+  for (pos = 0; pos < columns; pos++)
   {
-    lcd.write(4);
+    bar[pos] = 4;
   }
-  lcd.write(byte(pixPortion));
+  bar[columns] = pixPortion;
+
+  //Write full row
+  lcd.setCursor(0, 1);
+  for (pos = 0; pos < 16; pos++)
+  {
+    lcd.write(bar[pos]);
+  }
 }
 
 //=================================
@@ -74,7 +86,7 @@ void LCDPrintVbat(float voltage)
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("VBAT: ");
-  lcd.print(voltage,2);
+  lcd.print(voltage, 2);
 }
 
 #endif

@@ -38,27 +38,10 @@ void setup() {
 //=================================
 //Loop
 //=================================
-void loop() {
-  static int bgValue = 0;
-  static int dir = 1;
-  if (readDelayPot == true)
-  {
-    delayVal = analogRead(delayPin);                   // Read the delay pot
-    mainDelay = defMainDelay + delayVal * clockCycle;  // Offset main sample delay
-    calcTimerValues();                                 // Calculate new timer values
-    readDelayPot = false;                              // Set read delay pot flag to false
-  }
-
-  //See about buttons
-  uint8_t selectB = selectPressed();
-  if (selectB)
-  {
-    lcd.clear();
-    boost = !boost;
-    LCDBoost();
-    debugln(millis());
-  }
-  LCDBar ( bgValue);
+void loop() 
+{
+  DelayPot();
+  LCDBar();
 }
 
 
@@ -79,4 +62,15 @@ void setIO(void)
   digitalWrite(LED_BUILTIN, HIGH);
   delay(1000);
   digitalWrite(LED_BUILTIN, LOW);
+}
+
+void DelayPot( void)
+{
+  if (readDelayPot == true)
+  {
+    delayVal = analogRead(delayPin);                   // Read the delay pot
+    mainDelay = defMainDelay + delayVal * clockCycle;  // Offset main sample delay
+    calcTimerValues();                                 // Calculate new timer values
+    readDelayPot = false;                              // Set read delay pot flag to false
+  }
 }
