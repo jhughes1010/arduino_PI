@@ -2,6 +2,10 @@
 // Original code by George Overton
 // Modifications to support LCD and menuing by James Hughes
 
+//01-18-2022    1. VBAT monitor and low battery warning on power up. Detector will not operate
+//              2. LCD support started
+//              3. Button for scrolling through coil pulse width
+
 //=================================
 //Includes
 //=================================

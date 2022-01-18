@@ -1,4 +1,11 @@
 //=================================
+//voltageCalFactor
+//=================================
+// measured voltage at battery/measured
+// voltage at analog pin A1
+#define voltageCalFactor 12.3/4.3
+
+//=================================
 //checkBattery()
 //=================================
 void checkBattery(void)
@@ -22,6 +29,6 @@ int readBattery( void)
   int adc;
   float voltage;
   adc = analogRead(batteryPin);
-  voltage = adc / 68.2;
+  voltage = ((float)adc / 1023) * voltageCalFactor;
   return voltage;
 }

@@ -20,6 +20,7 @@ void setInterruptDetails(void)
 //=================================
 void calcTimerValues()
 {
+  
   float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
   if (digitalRead(boostPin) == HIGH) {                   // Get boost switch position
     txOn = normalPower;                                  // Set TX-on to 50us if HIGH
