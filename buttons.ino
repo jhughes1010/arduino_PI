@@ -4,7 +4,7 @@
 byte readButtons(void)
 {
   static bool pressed = false;
-  static int debounce = 0;
+  static int debounceDelayCount = 0;
   byte buttonValue = 0;
 
   if (!pressed)
@@ -13,13 +13,13 @@ byte readButtons(void)
     if (buttonValue)
     {
       pressed = true;
-      debounce = 0;
+      debounceDelayCount = 0;
     }
   }
   else
   {
-    debounce++;
-    if (debounce >= 2 ^ 14)
+    debounceDelayCount++;
+    if (debounceDelayCount >= debounceDelayCountMax)
       pressed = false;
   }
   return buttonValue;

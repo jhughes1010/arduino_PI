@@ -42,9 +42,10 @@ void setup() {
 //=================================
 //Loop
 //=================================
-void loop() 
+void loop()
 {
-  DelayPot();
+  DelayPotRead();
+  //ButtonRead();
   LCDBar();
 }
 
@@ -68,7 +69,7 @@ void setIO(void)
   digitalWrite(LED_BUILTIN, LOW);
 }
 
-void DelayPot( void)
+void DelayPotRead( void)
 {
   if (readDelayPot == true)
   {

@@ -35,15 +35,16 @@ byte signalPin = A3;     // Assign signal monitor
 //=================================
 // Program constants
 //=================================
-const float normalPower = 50 US;       // Normal TX-on time (50us)
-const float boostPower = 100 US;       // Boost TX-on time (100us)
-const float clockCycle = 62.5 NS;      // Time for one clock cycle (1/16MHz)
-const unsigned long maxCount = 65535;  // Value of 2^16 - 1
-const byte readDelayLimit = 100;       // Wait 100 TX periods (100ms) before reading delay pot
-const byte mosfetOn = HIGH;            // Mosfet turns on when transmitter input high
-const byte mosfetOff = LOW;            // Mosfet turns off when transmitter input low
-const byte syncDemodOn = LOW;          // Sample gate turns on when input high
-const byte syncDemodOff = HIGH;        // Sample gate turns off when input low
+const float normalPower = 45 US;                    // Normal TX-on time
+const float boostPower = 100 US;                    // Boost TX-on time
+const float clockCycle = 62.5 NS;                   // Time for one clock cycle (1/16MHz)
+const unsigned long maxCount = 65535;               // Value of 2^16 - 1
+const byte readDelayLimit = 100;                    // Wait 100 TX periods (100ms) before reading delay pot
+const byte mosfetOn = HIGH;                         // Mosfet turns on when transmitter input high
+const byte mosfetOff = LOW;                         // Mosfet turns off when transmitter input low
+const byte syncDemodOn = LOW;                       // Sample gate turns on when input high
+const byte syncDemodOff = HIGH;                     // Sample gate turns off when input low
+const unsigned long debounceDelayCountMax = 65535;  //Software debounce delay for switch read
 
 //=================================
 // Detector timings
@@ -55,6 +56,16 @@ float mainSample = 50 US;        // Main sample pulse width (50us)
 float efeDelay = 240 US;         // EFE sample pulse delay (240us)
 float efeSample = mainSample;    // EFE sample pulse width (same as main sample)
 float txPeriod = 1 MS;           // TX period (1ms)
+
+//=================================
+// Detector timings - menu choices
+//=================================
+float coilPulseWidthArray[4] = {20 US, 30, 40, 60};
+float targetSampleWidthArray[3] = {15, 30, 45};
+int coilSamplePulseIndex = 0;
+int targetPulseIndex = 0;
+int coilPulseMaxChoice = 4;
+int targetSampleMaxChoice = 3;
 
 //=================================
 // Timing offsets
