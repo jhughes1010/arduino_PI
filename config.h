@@ -50,12 +50,12 @@ const unsigned long debounceDelayCountMax = 65535;  //Software debounce delay fo
 // Detector timings
 //=================================
 float txOn = normalPower;        // TX-on time using normal power mode
-float defMainDelay = 10 US;      // Default main sample delay (20us)
+float defMainDelay = 10 US;      // Default main sample delay
 float mainDelay = defMainDelay;  // Main sample pulse delay
-float mainSample = 50 US;        // Main sample pulse width (50us)
-float efeDelay = 240 US;         // EFE sample pulse delay (240us)
+float mainSample = 50 US;        // Main sample pulse width
+float efeDelay = 240 US;         // EFE sample pulse delay
 float efeSample = mainSample;    // EFE sample pulse width (same as main sample)
-float txPeriod = 1 MS;           // TX period (1ms)
+float txPeriod = 1 MS;           // TX period
 
 //=================================
 // Detector timings - menu choices
