@@ -81,15 +81,15 @@ float txPeriodOffset = 30 US;    // TX period offset
 
 
 #else
-//=================================
-// Timing offsets
-//=================================
-float txOnOffset = 3 US;         // TX-on pulse offset
-float mainDelayOffset = 4.2 US;  // Main delay pulse offset
-float mainSampleOffset = 3 US;   // Main sample pulse offset
-float efeDelayOffset = 12 US;    // EFE delay pulse offset
-float efeSampleOffset = 4 US;    // EFE sample pulse offset
-float txPeriodOffset = 30 US;    // TX period offset
+//=====================================
+// Timing offsets for measuring offsets
+//=====================================
+float txOnOffset = 0 US;         // TX-on pulse offset
+float mainDelayOffset = 0 US;  // Main delay pulse offset
+float mainSampleOffset = 0 US;   // Main sample pulse offset
+float efeDelayOffset = 0 US;    // EFE delay pulse offset
+float efeSampleOffset = 0 US;    // EFE sample pulse offset
+float txPeriodOffset = 0 US;    // TX period offset
 #endif
 
 //=================================
