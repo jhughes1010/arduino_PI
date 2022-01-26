@@ -2,6 +2,7 @@
 #define NAME "Searcher"
 #define VERSION "v1.1 - 2022"
 #define LCD
+#define CALIBRATE_OFFSETS
 
 #define DEBUG 1
 
@@ -67,15 +68,29 @@ int targetPulseIndex = 0;
 int coilPulseMaxChoice = 4;
 int targetSampleMaxChoice = 3;
 
+#ifndef CALIBRATE_OFFSETS
 //=================================
 // Timing offsets
 //=================================
-float txOnOffset = 3 US;         // TX-on pulse offset (3us)
-float mainDelayOffset = 4.2 US;  // Main delay pulse offset (4.2us)
-float mainSampleOffset = 3 US;   // Main sample pulse offset (3us)
-float efeDelayOffset = 12 US;    // EFE delay pulse offset (12us)
-float efeSampleOffset = 4 US;    // EFE sample pulse offset (4us)
-float txPeriodOffset = 30 US;    // TX period offset (30us)
+float txOnOffset = 3 US;         // TX-on pulse offset
+float mainDelayOffset = 4.2 US;  // Main delay pulse offset
+float mainSampleOffset = 3 US;   // Main sample pulse offset
+float efeDelayOffset = 12 US;    // EFE delay pulse offset
+float efeSampleOffset = 4 US;    // EFE sample pulse offset
+float txPeriodOffset = 30 US;    // TX period offset
+
+
+#else
+//=================================
+// Timing offsets
+//=================================
+float txOnOffset = 3 US;         // TX-on pulse offset
+float mainDelayOffset = 4.2 US;  // Main delay pulse offset
+float mainSampleOffset = 3 US;   // Main sample pulse offset
+float efeDelayOffset = 12 US;    // EFE delay pulse offset
+float efeSampleOffset = 4 US;    // EFE sample pulse offset
+float txPeriodOffset = 30 US;    // TX period offset
+#endif
 
 //=================================
 // Program variables
