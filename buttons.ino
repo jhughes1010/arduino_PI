@@ -4,7 +4,7 @@
 byte readButtons(void)
 {
   static bool pressed = false;
-  static int debounceDelayCount = 0;
+  static byte priorDebounceCounter = 0;
   byte buttonValue = 0;
 
   if (!pressed)
@@ -13,13 +13,12 @@ byte readButtons(void)
     if (buttonValue)
     {
       pressed = true;
-      debounceDelayCount = 0;
+      priorDebounceCounter = debounceCounter;
     }
   }
   else
   {
-    debounceDelayCount++;
-    if (debounceDelayCount >= debounceDelayCountMax)
+    if (abs(debounceCounter - priorDebounceCounter) >= 2)
       pressed = false;
   }
   return buttonValue;
@@ -98,15 +97,17 @@ int rightPressed()
 }
 
 //=================================
-//nonIntDelay()
+//buttonRead()()
 //=================================
-void nonIntDelay(int delayTime)
+void buttonRead(void)
 {
-  int loop1, loop2;
-  for (loop1 = 0; loop1 < 255; loop1++)
-  {
-    for (loop2 = 0; loop2 < maxCount; loop2++)
-    {
-    }
-  }
+
+}
+//=================================
+//cycleTxPulse()
+//=================================
+void cycleTxPulse (void)
+{
+  coilPulseIndex ++;
+  coilPulseIndex = coilPulseIndex % coilPulseMaxChoice;
 }

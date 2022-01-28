@@ -20,7 +20,7 @@ void setInterruptDetails(void)
 //=================================
 void calcTimerValues()
 {
-  
+
   float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
   if (digitalRead(boostPin) == HIGH) {                   // Get boost switch position
     txOn = normalPower;                                  // Set TX-on to 50us if HIGH
@@ -84,6 +84,8 @@ ISR(TIMER1_OVF_vect)
         if (readDelayCounter >= readDelayLimit) {  // Check if read delay counter has reached limit
           readDelayPot = true;                     // Enable read of delay pot
           readDelayCounter = 0;                    // Clear read delay counter
+          debounceCounter++;
+          debounceCounter = debounceCounter % 10;  //10 counts per second
         }
       }
       intState = 4;

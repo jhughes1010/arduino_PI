@@ -63,9 +63,9 @@ float txPeriod = 1 MS;           // TX period
 //=================================
 float coilPulseWidthArray[4] = {20 US, 30 US, 40 US, 60 US};
 float targetSampleWidthArray[3] = {15 US, 30 US, 45 US};
-int coilSamplePulseIndex = 0;
-int targetPulseIndex = 0;
+int coilPulseIndex = 0;
 int coilPulseMaxChoice = 4;
+int targetSamplePulseIndex = 0;
 int targetSampleMaxChoice = 3;
 
 #ifndef CALIBRATE_OFFSETS
@@ -106,5 +106,6 @@ bool readDelayPot = false;                       // Delay pot read (true or fals
 byte audioLevel = LOW;                           // Value for audio chopper signal
 byte intState = 0;                               // Interrupt state machine
 byte readDelayCounter = 0;                       // Read delay pot counter
+byte debounceCounter = 0;                        // Switch debounce counter
 
 bool boost = false;
