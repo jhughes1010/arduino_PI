@@ -62,9 +62,10 @@ float txPeriod = 1 MS;           // TX period
 // Detector timings - menu choices
 //=================================
 float coilPulseWidthArray[4] = {20 US, 30 US, 40 US, 60 US};
-float targetSampleWidthArray[3] = {15 US, 30 US, 45 US};
 int coilPulseIndex = 0;
 int coilPulseMaxChoice = 4;
+
+float targetSampleWidthArray[3] = {15 US, 30 US, 45 US};
 int targetSamplePulseIndex = 0;
 int targetSampleMaxChoice = 3;
 

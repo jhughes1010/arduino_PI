@@ -101,7 +101,11 @@ int rightPressed()
 //=================================
 void buttonRead(void)
 {
-
+  if (rightPressed())
+  {
+    cycleTxPulse();
+    LCDPrintCoilWidth();
+  }
 }
 //=================================
 //cycleTxPulse()

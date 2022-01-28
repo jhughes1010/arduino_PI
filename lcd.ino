@@ -31,7 +31,6 @@ void LCDBoost( void )
     lcd.print("Boost ");
   else
     lcd.print("Normal");
-  delay(1500);
 }
 
 //=================================
@@ -89,4 +88,14 @@ void LCDPrintVbat(float voltage)
   lcd.print(voltage, 2);
 }
 
+//=================================
+//LCDPrintCoilWidth()
+//=================================
+void LCDPrintCoilWidth(void)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("TX: ");
+  lcd.print(coilPulseWidthArray[coilPulseIndex] * 1e6);
+}
 #endif

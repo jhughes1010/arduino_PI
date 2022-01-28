@@ -23,7 +23,7 @@ void calcTimerValues()
 
   float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
   if (digitalRead(boostPin) == HIGH) {                   // Get boost switch position
-    txOn = normalPower;                                  // Set TX-on to 50us if HIGH
+    txOn = coilPulseWidthArray[coilPulseIndex];
   } else {
     txOn = boostPower;                                   // Set TX-on to 100us if LOW
   }
