@@ -114,4 +114,5 @@ void cycleTxPulse (void)
 {
   coilPulseIndex ++;
   coilPulseIndex = coilPulseIndex % coilPulseMaxChoice;
+  debugln(coilPulseIndex);
 }

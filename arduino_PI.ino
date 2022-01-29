@@ -11,7 +11,7 @@
 //=================================
 #include "config.h"
 #include <Adafruit_RGBLCDShield.h>
-#include <Adafruit_MCP23017.h>
+#include <Adafruit_MCP23X17.h>
 
 //=================================
 //Global Instances
@@ -35,7 +35,7 @@ void setup() {
   LCDInit();
   LCDTitle();
   createCustomChar();
-  checkBattery();
+  //checkBattery();
 #endif
 }
 
