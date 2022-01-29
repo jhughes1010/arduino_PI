@@ -65,14 +65,16 @@ ISR(TIMER1_OVF_vect)
       break;
 
     case 1:
-      TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
-      digitalWrite(txPin, mosfetOff);              // Turn off Mosfet
+      //TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
+      TCNT1 = 0xfffe;
+      //digitalWrite(txPin, mosfetOff);              // Turn off Mosfet
       intState = 2;
+      PORTB &= ~(1 << 0);
       break;
 
     case 2:
+      PORTB &= ~(1 << 1);
       TCNT1 = mainSampleCount;                     // Load Timer1 with main sample pulse count
-      digitalWrite(mainSamplePin, syncDemodOn);    // Turn on main sample gate
       intState = 3;
       break;
 
