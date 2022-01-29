@@ -18,7 +18,7 @@ byte readButtons(void)
   }
   else
   {
-    if (abs(debounceCounter - priorDebounceCounter) >= 2)
+    if (abs(debounceCounter - priorDebounceCounter) >= 3)
       pressed = false;
   }
   return buttonValue;

@@ -46,7 +46,7 @@ void loop()
 {
   DelayPotRead();
   buttonRead();
-  LCDBar();
+  //LCDBar();
 }
 
 

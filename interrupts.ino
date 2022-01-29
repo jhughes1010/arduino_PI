@@ -8,6 +8,7 @@ void setInterruptDetails(void)
   TCCR1A = 0;                       // Initialize Timer1 registers
   TCCR1B = 0;
   TIMSK0 = 0;                       // Clear Timer0 mask register to eliminate jitter
+  TIMSK2 = 0;
   TCNT1 = txOnCount;                // Load Timer1 with TX-on count
   TCCR1B |= (1 << CS10);            // No prescaling for Timer1
   TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
@@ -65,8 +66,8 @@ ISR(TIMER1_OVF_vect)
       break;
 
     case 1:
-      //TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
-      TCNT1 = 0xfffe;
+      TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
+      //TCNT1 = 0xfffe;
       //digitalWrite(txPin, mosfetOff);              // Turn off Mosfet
       intState = 2;
       PORTB &= ~(1 << 0);
