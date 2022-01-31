@@ -52,9 +52,7 @@ ISR(TIMER1_OVF_vect)
   switch (intState) {
     case 0:
       TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
-
       PORTB |= (1 << 0);                           // TX coil on
-
       intState = 1;
       break;
 
@@ -65,26 +63,26 @@ ISR(TIMER1_OVF_vect)
       break;
 
     case 2:
-      PORTB &= ~(1 << 1);
+      PORTB &= ~(1 << 1);                          // Sample pulse enable
       TCNT1 = mainSampleCount;                     // Load Timer1 with main sample pulse count
       intState = 3;
       break;
 
     case 3:
       TCNT1 = efeDelayCount;                       // Load Timer1 with EFE sample delay count
-      PORTB |= (1 << 1);
+      PORTB |= (1 << 1);                           // Sample pulse disable
       intState = 4;
       break;
 
     case 4:
       TCNT1 = efeSampleCount;                      // Load Timer1 with EFE sample pulse count
-      PORTB &= ~(1 << 2);
+      PORTB &= ~(1 << 2);                          // EFE pulse enable
       intState = 5;
       break;
 
     case 5:
       TCNT1 = txPeriodCount;                       // Load Timer1 with TX period count
-      PORTB |= (1 << 2);
+      PORTB |= (1 << 2);                           // EFE pulse disable
       intState = 0;
 
       //toggle audio pin state
