@@ -52,25 +52,16 @@ ISR(TIMER1_OVF_vect)
   switch (intState) {
     case 0:
       TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
-      digitalWrite(txPin, mosfetOn);               // Turn on Mosfet
-      digitalWrite(audioPin, audioLevel);
-      if (audioLevel == HIGH)
-      {
-        audioLevel = LOW;
-      }
-      else
-      {
-        audioLevel = HIGH;
-      }
+
+      PORTB |= (1 << 0);                           // TX coil on
+
       intState = 1;
       break;
 
     case 1:
       TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
-      //TCNT1 = 0xfffe;
-      //digitalWrite(txPin, mosfetOff);              // Turn off Mosfet
       intState = 2;
-      PORTB &= ~(1 << 0);
+      PORTB &= ~(1 << 0);                          // TX coil off
       break;
 
     case 2:
@@ -81,29 +72,36 @@ ISR(TIMER1_OVF_vect)
 
     case 3:
       TCNT1 = efeDelayCount;                       // Load Timer1 with EFE sample delay count
-      digitalWrite(mainSamplePin, syncDemodOff);   // Turn off main sample gate
-      if (readDelayPot == false) {                 // Check if read delay pot flag is false
-        readDelayCounter++;                        // Increment read delay counter
-        if (readDelayCounter >= readDelayLimit) {  // Check if read delay counter has reached limit
-          readDelayPot = true;                     // Enable read of delay pot
-          readDelayCounter = 0;                    // Clear read delay counter
-          debounceCounter++;
-          debounceCounter = debounceCounter % 10;  //10 counts per second
-        }
-      }
+      PORTB |= (1 << 1);
       intState = 4;
       break;
 
     case 4:
       TCNT1 = efeSampleCount;                      // Load Timer1 with EFE sample pulse count
-      digitalWrite(efeSamplePin, syncDemodOn);     // Turn on EFE sample gate
+      PORTB &= ~(1 << 1);
       intState = 5;
       break;
 
     case 5:
       TCNT1 = txPeriodCount;                       // Load Timer1 with TX period count
-      digitalWrite(efeSamplePin, syncDemodOff);    // Turn off EFE sample gate
+      PORTB |= (1 << 2);
       intState = 0;
+
+      //toggle audio pin state
+      digitalWrite(audioPin, !digitalRead(audioPin));
+
+      //update counter to allow for periodic reading of delay pot
+      if (readDelayPot == false)                   // Check if read delay pot flag is false
+      {
+        readDelayCounter++;                        // Increment read delay counter
+        readDelayCounter = readDelayCounter % readDelayLimit;
+        if (!readDelayCounter)                      // Check if read delay counter is zero
+        {
+          readDelayPot = true;                     // Enable read of delay pot
+          debounceCounter++;
+          debounceCounter = debounceCounter % 10;  //10 counts per second
+        }
+      }
       break;
 
     default:
