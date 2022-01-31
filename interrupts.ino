@@ -78,7 +78,7 @@ ISR(TIMER1_OVF_vect)
 
     case 4:
       TCNT1 = efeSampleCount;                      // Load Timer1 with EFE sample pulse count
-      PORTB &= ~(1 << 1);
+      PORTB &= ~(1 << 2);
       intState = 5;
       break;
 
