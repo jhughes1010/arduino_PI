@@ -52,11 +52,15 @@ ISR(TIMER1_OVF_vect)
   switch (intState) {
     case 0:
       TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
+      TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
+      TCNT1 = txOnCount;                           // Load Timer1 with TX-ON count
       PORTB |= (1 << 0);                           // TX coil on
       intState = 1;
       break;
 
     case 1:
+      TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
+      TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
       TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
       intState = 2;
       PORTB &= ~(1 << 0);                          // TX coil off
