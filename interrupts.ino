@@ -22,7 +22,7 @@ void setInterruptDetails(void)
 void calcTimerValues()
 {
 
-  float temp1, temp2, temp3, temp4, temp5, temp6;  // Intermediate calculation variables
+  float temp1, temp2, temp3, temp4, temp5, temp6, temp7;  // Intermediate calculation variables
   if (digitalRead(boostPin) == HIGH) {                   // Get boost switch position
     txOn = coilPulseWidthArray[coilPulseIndex];
   } else {
@@ -39,9 +39,13 @@ void calcTimerValues()
   efeDelayCount = maxCount - int(temp4);                 // EFE sample delay count for Timer1
   temp5 = (efeSample - efeSampleOffset) / clockCycle;
   efeSampleCount = maxCount - int(temp5);                // EFE sample pulse count for Timer 1
+  temp7 = txPeriodBuffer / clockCycle;                   // TX buffer for no I2C traffic
+  txPeriodBufferCount = maxCount - int(temp7);
   temp6 = (txPeriod - txPeriodOffset) / clockCycle;
-  temp6 -= temp1 + temp2 + temp3 + temp4 + temp5;
+  temp6 -= temp1 + temp2 + temp3 + temp4 + temp5 + temp7;
   txPeriodCount = maxCount - int(temp6);                 // TX period count for Timer1
+
+
 }
 
 //=================================
@@ -100,8 +104,8 @@ ISR(TIMER1_OVF_vect)
       intState = 0;
       break;
   }
-  
-  //Increment to next state machine value
+
+  //Increment to next state machine value but always ensure intState is between 0 - 6
   intState ++;
-  intState = intState % 6;
+  intState = intState % 7;
 }

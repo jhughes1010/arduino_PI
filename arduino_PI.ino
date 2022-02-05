@@ -44,8 +44,8 @@ void setup() {
 //=================================
 void loop()
 {
-  //DelayPotRead();
-  //buttonRead();
+  DelayPotRead();
+  buttonRead();
   //LCDBar();
 }
 

@@ -45,7 +45,6 @@ const byte mosfetOn = HIGH;                         // Mosfet turns on when tran
 const byte mosfetOff = LOW;                         // Mosfet turns off when transmitter input low
 const byte syncDemodOn = LOW;                       // Sample gate turns on when input high
 const byte syncDemodOff = HIGH;                     // Sample gate turns off when input low
-const unsigned long debounceDelayCountMax = 65535;  //Software debounce delay for switch read
 
 //=================================
 // Detector timings
@@ -56,6 +55,7 @@ float mainDelay = defMainDelay;  // Main sample pulse delay
 float mainSample = 50 US;        // Main sample pulse width
 float efeDelay = 240 US;         // EFE sample pulse delay
 float efeSample = mainSample;    // EFE sample pulse width (same as main sample)
+float txPeriodBuffer = 50 US;    // Buffer to ensure no I2C traffic
 float txPeriod = 1 MS;           // TX period
 
 //=================================
@@ -102,6 +102,7 @@ word mainSampleCount;                            // Main sample pulse
 word efeDelayCount;                              // EFE sample delay
 word efeSampleCount;                             // EFE sample pulse
 word txPeriodCount;                              // TX period
+word txPeriodBufferCount;                        // TX period buffer to ensure no I2C activity
 word delayVal = 0;                               // Delay pot value
 bool readDelayPot = false;                       // Delay pot read (true or false)
 byte audioLevel = LOW;                           // Value for audio chopper signal
