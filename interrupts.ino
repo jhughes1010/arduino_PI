@@ -100,6 +100,10 @@ ISR(TIMER1_OVF_vect)
       }
       break;
 
+    case 6:
+      TCNT1 = txPeriodBufferCount;
+      break;
+
     default:
       intState = 0;
       break;
