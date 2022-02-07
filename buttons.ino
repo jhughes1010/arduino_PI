@@ -97,7 +97,7 @@ int rightPressed()
 }
 
 //=================================
-//buttonRead()()
+//buttonRead()
 //=================================
 void buttonRead(void)
 {
@@ -108,8 +108,14 @@ void buttonRead(void)
       cycleTxPulse();
       LCDPrintCoilWidth();
     }
+    if(leftPressed())
+    {
+      cycleSampleWidth();
+      LCDPrintSampleWidth();
+    }
   }
 }
+
 //=================================
 //cycleTxPulse()
 //=================================
@@ -118,4 +124,14 @@ void cycleTxPulse (void)
   coilPulseIndex ++;
   coilPulseIndex = coilPulseIndex % coilPulseMaxChoice;
   debugln(coilPulseIndex);
+}
+
+//=================================
+//cycleSampleWidth()
+//=================================
+void cycleSampleWidth (void)
+{
+  targetSamplePulseIndex ++;
+  targetSamplePulseIndex = targetSamplePulseIndex % targetSampleMaxChoice;
+  debugln(targetSamplePulseIndex);
 }

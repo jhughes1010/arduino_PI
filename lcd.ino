@@ -98,4 +98,15 @@ void LCDPrintCoilWidth(void)
   lcd.print("TX: ");
   lcd.print(coilPulseWidthArray[coilPulseIndex] * 1e6);
 }
+
+//=================================
+//LCDPrintSampleWidth()
+//=================================
+void LCDPrintSampleWidth(void)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Sample: ");
+  lcd.print(targetSampleWidthArray[targetSamplePulseIndex] * 1e6);
+}
 #endif
