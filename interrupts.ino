@@ -30,17 +30,24 @@ void calcTimerValues()
   }
   temp1 = (txOn - txOnOffset) / clockCycle;
   txOnCount = maxCount - int(temp1);                     // TX-on count for Timer1
+  
   temp2 = (mainDelay - mainDelayOffset) / clockCycle;
   mainDelayCount = maxCount - int(temp2);                // Main sample delay count for Timer1
+  
+  mainSample = targetSampleWidthArray[targetSamplePulseIndex];
   temp3 = (mainSample - mainSampleOffset) / clockCycle;
   mainSampleCount = maxCount - int(temp3);               // Main sample pulse count for Timer1
+  
   temp4 = (efeDelay - efeDelayOffset) / clockCycle;
   temp4 -= temp3 + temp2;
   efeDelayCount = maxCount - int(temp4);                 // EFE sample delay count for Timer1
+  
   temp5 = (efeSample - efeSampleOffset) / clockCycle;
   efeSampleCount = maxCount - int(temp5);                // EFE sample pulse count for Timer 1
+  
   temp7 = txPeriodBuffer / clockCycle;                   // TX buffer for no I2C traffic
   txPeriodBufferCount = maxCount - int(temp7);
+  
   temp6 = (txPeriod - txPeriodOffset) / clockCycle;
   temp6 -= temp1 + temp2 + temp3 + temp4 + temp5 + temp7;
   txPeriodCount = maxCount - int(temp6);                 // TX period count for Timer1
