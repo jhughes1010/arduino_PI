@@ -103,13 +103,12 @@ void buttonRead(void)
 {
   if (intState == 5)
   {
-    /*
     if (rightPressed())
     {
       cycleTxPulse();
       LCDPrintCoilWidth();
-    }*/
-    if(leftPressed())
+    }
+    if(upPressed())
     {
       cycleSampleWidth();
       LCDPrintSampleWidth();
