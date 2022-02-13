@@ -38,32 +38,43 @@ void LCDBoost( void )
 //=================================
 void LCDBar ( void)
 {
-  byte bar[16] = {32};
+  byte bar[16] = {32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32};
   int pixels;
   int pos;
   int columns;
   int pixPortion;
   int signalValue;
 
-  signalValue = analogRead(signalPin);
-
-  //convert 10 bit value to pixel 0-79
-  pixels = (signalValue / 1023 * 80);
-  columns = (int)(pixels / 5);
-  pixPortion = (int)pixels % 5;
-
-  //fill columns
-  for (pos = 0; pos < columns; pos++)
+  if (debounceCounter % 4 == 0 && intState == 5)
   {
-    bar[pos] = 4;
-  }
-  bar[columns] = pixPortion;
+    debounceCounter++;
+    intTimerOff();
+    //readDelayPot = false;
+    signalValue = analogRead(signalPin);
+    //signalValue = analogRead(delayPin);
+    //signalValue = 480;
 
-  //Write full row
-  lcd.setCursor(0, 1);
-  for (pos = 0; pos < 16; pos++)
-  {
-    lcd.write(bar[pos]);
+    //convert 10 bit value to pixel 0-79
+    pixels = (float)signalValue / 1023 * 80;
+    columns = (int)(pixels / 5);
+    pixPortion = (int)pixels % 5;
+
+    debugln(columns);
+    debugln(pixPortion);
+    //fill columns
+    for (pos = 0; pos < columns; pos++)
+    {
+      bar[pos] = 4;
+    }
+    bar[columns] = pixPortion;
+
+    //Write full row
+    lcd.setCursor(0, 1);
+    for (pos = 0; pos < 16; pos++)
+    {
+      lcd.write(bar[pos]);
+    }
+    intTimerOn();
   }
 }
 

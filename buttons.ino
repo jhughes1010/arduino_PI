@@ -98,11 +98,8 @@ void buttonRead(void)
   
   if (readDelayPot == true)
   {
-    //debug("/");
     readDelayPot = false;
-    //if (intState == 5)
     {
-      //readFlag = true;
       //read button register
       button = readButtons();
       //process button push

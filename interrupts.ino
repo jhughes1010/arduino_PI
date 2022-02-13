@@ -123,3 +123,25 @@ ISR(TIMER1_OVF_vect)
   intState ++;
   //intState = intState % 7;
 }
+
+void intTimerOff(void)
+{
+  noInterrupts();                   // Disable interrupts
+  //TCCR1A = 0;                       // Initialize Timer1 registers
+  //TCCR1B = 0;
+  //TIMSK1 = 0;                       // Clear Timer0 mask register to eliminate jitter
+  //TIMSK2 = 0;
+  //TCNT1 = txOnCount;                // Load Timer1 with TX-on count
+  //TCCR1B |= (1 << CS10);            // No prescaling for Timer1
+  TIMSK1 &= ~(1 << TOIE1);           // Enable Timer1 overflow interrupt
+  interrupts();                     // Enable interrupts
+}
+
+
+void intTimerOn(void)
+{
+  noInterrupts();                   // Disable interrupts
+  TIMSK1 |= (1 << TOIE1);           // Enable Timer1 overflow interrupt
+  intState=6;
+  interrupts();                     // Enable interrupts
+}
