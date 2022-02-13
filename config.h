@@ -2,9 +2,9 @@
 #define NAME "Arduino-PI Pro"
 #define VERSION "v1.1 - 2022"
 #define LCD
-#define CALIBRATE_OFFSETS
+//#define CALIBRATE_OFFSETS
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #if DEBUG == 1
 #define debug(x) Serial.print(x)
@@ -50,12 +50,12 @@ const byte syncDemodOff = HIGH;                     // Sample gate turns off whe
 // Detector timings
 //=================================
 float txOn = normalPower;        // TX-on time using normal power mode
-float defMainDelay = 0 US;      // Default main sample delay
+float defMainDelay = 7 US;      // Default main sample delay
 float mainDelay = defMainDelay;  // Main sample pulse delay
 float mainSample = 50 US;        // Main sample pulse width
 float efeDelay = 240 US;         // EFE sample pulse delay
 float efeSample = mainSample;    // EFE sample pulse width (same as main sample)
-float txPeriodBuffer = 50 US;    // Buffer to ensure no I2C traffic
+float txPeriodBuffer = 100 US;    // Buffer to ensure no I2C traffic
 float txPeriod = 1 MS;           // TX period
 
 //=================================
@@ -73,9 +73,9 @@ int targetSampleMaxChoice = 3;
 //=================================
 // Timing offsets
 //=================================
-float txOnOffset = 3 US;         // TX-on pulse offset
-float mainDelayOffset = 4.2 US;  // Main delay pulse offset
-float mainSampleOffset = 3 US;   // Main sample pulse offset
+float txOnOffset = 4.2 US;         // TX-on pulse offset
+float mainDelayOffset = 6.6 US;  // Main delay pulse offset
+float mainSampleOffset = 5 US;   // Main sample pulse offset
 float efeDelayOffset = 12 US;    // EFE delay pulse offset
 float efeSampleOffset = 4 US;    // EFE sample pulse offset
 float txPeriodOffset = 30 US;    // TX period offset

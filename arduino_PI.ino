@@ -25,7 +25,7 @@ Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 //=================================
 void setup() {
   Serial.begin(115200);
-  Serial.println("Arduino PI");
+  Serial.println(NAME);
 
   setIO();
   setInterruptDetails();
@@ -73,9 +73,11 @@ void DelayPotRead( void)
 {
   if (readDelayPot == true)
   {
+    //debug(".");
     delayVal = analogRead(delayPin);                   // Read the delay pot
+    //delayVal=0;
     mainDelay = defMainDelay + delayVal * clockCycle;  // Offset main sample delay
     calcTimerValues();                                 // Calculate new timer values
-    readDelayPot = false;                              // Set read delay pot flag to false
+    //readDelayPot = false;                              // Set read delay pot flag to false
   }
 }

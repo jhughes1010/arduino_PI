@@ -14,7 +14,7 @@ byte readButtons(void)
     {
       pressed = true;
       priorDebounceCounter = debounceCounter;
-      debugln(buttonValue);
+      //debugln(buttonValue);
     }
   }
   else
@@ -93,22 +93,31 @@ int rightPressed(uint8_t button)
 //=================================
 void buttonRead(void)
 {
+  //static bool readFlag = false;
   uint8_t button;
-  if (intState == 5)
+  
+  if (readDelayPot == true)
   {
-    //read button register
-    button = readButtons();
-    //process button push
-    if (rightPressed(button))
+    //debug("/");
+    readDelayPot = false;
+    //if (intState == 5)
     {
-      cycleTxPulse();
-      LCDPrintCoilWidth();
+      //readFlag = true;
+      //read button register
+      button = readButtons();
+      //process button push
+      if (rightPressed(button))
+      {
+        cycleTxPulse();
+        LCDPrintCoilWidth();
+      }
+      if (upPressed(button))
+      {
+        cycleSampleWidth();
+        LCDPrintSampleWidth();
+      }
     }
-    if (upPressed(button))
-    {
-      cycleSampleWidth();
-      LCDPrintSampleWidth();
-    }
+
   }
 }
 
@@ -119,7 +128,7 @@ void cycleTxPulse (void)
 {
   coilPulseIndex ++;
   coilPulseIndex = coilPulseIndex % coilPulseMaxChoice;
-  debugln(coilPulseIndex);
+  //debugln(coilPulseIndex);
 }
 
 //=================================
@@ -129,5 +138,5 @@ void cycleSampleWidth (void)
 {
   targetSamplePulseIndex ++;
   targetSamplePulseIndex = targetSamplePulseIndex % targetSampleMaxChoice;
-  debugln(targetSamplePulseIndex);
+  //debugln(targetSamplePulseIndex);
 }

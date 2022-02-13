@@ -69,6 +69,7 @@ ISR(TIMER1_OVF_vect)
 
     case 1:
       TCNT1 = mainDelayCount;                      // Load Timer1 with main sample delay count
+      //TCNT1 = 0xfffd;
       PORTB &= ~(1 << 0);                          // TX coil off
       break;
 
@@ -103,7 +104,7 @@ ISR(TIMER1_OVF_vect)
         {
           readDelayPot = true;                     // Enable read of delay pot
           debounceCounter++;
-          debounceCounter = debounceCounter % 20;  //10 counts per second
+          debounceCounter = debounceCounter % 10;  //10 counts per second
         }
       }
       break;
@@ -113,11 +114,12 @@ ISR(TIMER1_OVF_vect)
       break;
 
     default:
-      intState = 0;
+      TCNT1 = 0xfffd;
+      intState = -1;
       break;
   }
 
   //Increment to next state machine value but always ensure intState is between 0 - 6
   intState ++;
-  intState = intState % 7;
+  //intState = intState % 7;
 }
