@@ -1,5 +1,5 @@
 //Configuration and compile settings
-#define NAME "Searcher"
+#define NAME "Arduino-PI Pro"
 #define VERSION "v1.1 - 2022"
 #define LCD
 #define CALIBRATE_OFFSETS

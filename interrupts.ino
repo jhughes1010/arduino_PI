@@ -103,7 +103,7 @@ ISR(TIMER1_OVF_vect)
         {
           readDelayPot = true;                     // Enable read of delay pot
           debounceCounter++;
-          debounceCounter = debounceCounter % 10;  //10 counts per second
+          debounceCounter = debounceCounter % 20;  //10 counts per second
         }
       }
       break;

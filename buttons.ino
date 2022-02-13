@@ -14,6 +14,7 @@ byte readButtons(void)
     {
       pressed = true;
       priorDebounceCounter = debounceCounter;
+      debugln(buttonValue);
     }
   }
   else
@@ -26,74 +27,65 @@ byte readButtons(void)
 //=================================
 //Routines to read i2c buttons
 //=================================
-int selectPressed()
+int selectPressed(uint8_t button)
 {
-  uint8_t buttons = readButtons() & BUTTON_SELECT;
-  if (buttons)
+  if (button & BUTTON_SELECT)
   {
-    Serial.print("Select button value: ");
-    Serial.println(buttons);
-    delay(2000);
+    return 1;
   }
-  return buttons;
+  return 0;
 }
 
 //=================================
 //upPressed()
 //=================================
-int upPressed()
+int upPressed(uint8_t button)
 {
-  uint8_t buttons = readButtons()& BUTTON_UP;
-  if (buttons)
+  if (button & BUTTON_UP)
   {
-    //Serial.print("Up button value: ");
-    //Serial.println(buttons);
-    //delay(750);
-    buttons = 1;
+    debugln("Up");
+    return 1;
   }
-  return buttons;
+  return 0;
 }
 
 //=================================
 //downPressed()
 //=================================
-int downPressed()
+int downPressed(uint8_t button)
 {
-  uint8_t buttons = readButtons() & BUTTON_DOWN;
-  if (buttons)
+  if (button & BUTTON_DOWN)
   {
-    //Serial.print("Down button value: ");
-    //Serial.println(buttons);
-    //delay(750);
-    buttons = 1;
+    debugln("Down");
+    return 1;
   }
-  return buttons;
+  return 0;
 }
 
 //=================================
 //leftPressed()
 //=================================
-int leftPressed()
+int leftPressed(uint8_t button)
 {
-  uint8_t button = readButtons() & BUTTON_LEFT;
-  if (button)
+  if (button  & BUTTON_LEFT)
   {
-    button = 1;
+    debugln("Left");
+    return 1;
   }
-  return button;
+  return 0;
 }
 
 //=================================
 //rightPressed()
 //=================================
-int rightPressed()
+int rightPressed(uint8_t button)
 {
-  uint8_t button = readButtons() & BUTTON_RIGHT;
-  if (button)
+  if (button & BUTTON_RIGHT)
   {
-    button = 1;
+    debugln("Right");
+    return 1;
   }
-  return button;
+  return 0;
 }
 
 //=================================
@@ -101,14 +93,18 @@ int rightPressed()
 //=================================
 void buttonRead(void)
 {
+  uint8_t button;
   if (intState == 5)
   {
-    if (rightPressed())
+    //read button register
+    button = readButtons();
+    //process button push
+    if (rightPressed(button))
     {
       cycleTxPulse();
       LCDPrintCoilWidth();
     }
-    if(upPressed())
+    if (upPressed(button))
     {
       cycleSampleWidth();
       LCDPrintSampleWidth();
