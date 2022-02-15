@@ -95,26 +95,21 @@ void buttonRead(void)
 {
   //static bool readFlag = false;
   uint8_t button;
-  
-  if (readDelayPot == true)
-  {
-    readDelayPot = false;
-    {
-      //read button register
-      button = readButtons();
-      //process button push
-      if (rightPressed(button))
-      {
-        cycleTxPulse();
-        LCDPrintCoilWidth();
-      }
-      if (upPressed(button))
-      {
-        cycleSampleWidth();
-        LCDPrintSampleWidth();
-      }
-    }
 
+  {
+    //read button register
+    button = readButtons();
+    //process button push
+    if (rightPressed(button))
+    {
+      cycleTxPulse();
+      LCDPrintCoilWidth();
+    }
+    if (upPressed(button))
+    {
+      cycleSampleWidth();
+      LCDPrintSampleWidth();
+    }
   }
 }
 

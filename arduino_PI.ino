@@ -44,9 +44,13 @@ void setup() {
 //=================================
 void loop()
 {
-  DelayPotRead();
-  buttonRead();
-  LCDBar();
+  if (readDelayPot == true)
+  {
+    readDelayPot == false;
+    DelayPotRead();
+    //buttonRead();
+    //LCDBar();
+  }
 }
 
 
